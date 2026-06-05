@@ -50,10 +50,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 .enter-btn:hover::after{left:100%}
 .enter-btn:active{transform:scale(0.95)}
 
-.flame-mascot{position:fixed;right:clamp(20px,5vw,60px);top:50%;transform:translateY(-40%);z-index:12;font-size:clamp(40px,8vw,90px);opacity:0;animation:fadeIn 1s ease 1.6s forwards;filter:drop-shadow(0 0 20px rgba(255,180,50,0.5)) drop-shadow(0 0 40px rgba(255,140,0,0.3));pointer-events:none}
-.flame-mascot .flame-inner{animation:floatFlame 3s ease-in-out infinite}
-@keyframes floatFlame{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.06)}}
-
 .bottom-tag{position:fixed;bottom:clamp(18px,3vh,32px);left:50%;transform:translateX(-50%);z-index:15;opacity:0;animation:fadeIn 0.6s ease 2.5s forwards;pointer-events:none}
 .bottom-tag span{font-family:'Noto Sans SC',sans-serif;font-size:clamp(10px,1.5vw,13px);color:rgba(139,115,85,0.5);letter-spacing:0.2em;font-weight:300}
 
@@ -62,7 +58,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
   .nav-brand{font-size:14px;margin-right:12px}
   .side-dots{left:10px;gap:12px}
   .side-dot{width:5px;height:5px}
-  .flame-mascot{right:8px;font-size:36px}
 }
 </style>
 </head>
@@ -95,10 +90,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 
 <div class="enter-section">
     <button class="enter-btn" onclick="location.href='app.html'">进入</button>
-</div>
-
-<div class="flame-mascot">
-    <div class="flame-inner">🔥</div>
 </div>
 
 <div class="bottom-tag">
@@ -245,11 +236,11 @@ const allParticleData = [];
 function waveRadius(theta, layerIndex, layerCount, time, globalAmp) {
     const baseR = 1.4 + Math.sin((layerIndex / layerCount) * Math.PI) * 1.2;
     const waves = 2 + layerIndex;
-    const amp = (0.25 + layerIndex * 0.07) * globalAmp;
+    const amp = (0.45 + layerIndex * 0.1) * globalAmp;
     return baseR
          + Math.sin(waves * theta + time * 0.4 + layerIndex * 1.2) * amp
-         + Math.sin(waves * 2.3 * theta + time * 0.6 + layerIndex * 2.1) * amp * 0.6
-         + Math.sin(waves * 0.7 * theta - time * 0.25 + layerIndex * 0.5) * amp * 0.35;
+         + Math.sin(waves * 2.3 * theta + time * 0.6 + layerIndex * 2.1) * amp * 0.65
+         + Math.sin(waves * 0.7 * theta - time * 0.25 + layerIndex * 0.5) * amp * 0.4;
 }
 
 // Create ring layers
@@ -496,17 +487,17 @@ function animate() {
     mainGroup.rotation.z = -mouseX * 0.18;
 
     // Global breath amplitude - all rings pulse together
-    const globalAmp = 1 + Math.sin(time * 0.55) * 0.18 + Math.sin(time * 1.2) * 0.08;
+    const globalAmp = 1 + Math.sin(time * 0.55) * 0.3 + Math.sin(time * 1.2) * 0.14;
     updateRingPositions(time, globalAmp);
 
     // Per-ring brightness pulsing (staggered)
     for (let l = 0; l < ringMaterials.length; l++) {
-        const ringPulse = 0.65 + 0.35 * (0.5 + 0.5 * Math.sin(time * 1.3 + l * 0.7));
+        const ringPulse = 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(time * 1.3 + l * 0.7));
         ringMaterials[l].opacity = 0.85 * ringPulse * opacityFade;
     }
     for (let l = 0; l < lineMaterials.length; l++) {
         const alpha = 0.06 + (l / RING_LAYERS) * 0.08;
-        lineMaterials[l].opacity = alpha * (0.7 + 0.3 * Math.sin(time * 1.5 + l * 0.6)) * opacityFade;
+        lineMaterials[l].opacity = alpha * (0.5 + 0.5 * Math.sin(time * 1.5 + l * 0.6)) * opacityFade;
     }
 
     // Core pulse cascade
