@@ -535,7 +535,7 @@
                                 <div style="margin-bottom:6px;color:var(--text-secondary);font-size:12px;">李思琪: 可以，暗号别忘了哦</div>
                             </div>
                         </div>
-                        <div style="display:flex;gap:8px;"><input type="text" class="input-field" placeholder="输入消息..." disabled id="chatInput"><button class="btn btn-primary btn-sm" disabled id="chatSendBtn">发送</button></div>
+                        <div style="display:flex;gap:8px;"><input type="text" class="input-field" placeholder="输入消息..." disabled id="chatInput" onkeydown="if(event.key==='Enter')sendChatMessage()"><button class="btn btn-primary btn-sm" disabled id="chatSendBtn" onclick="sendChatMessage()">发送</button></div>
                         <div id="contactInfo" style="display:none;margin-top:10px;padding:10px;background:rgba(0,212,255,0.05);border-radius:var(--radius-sm);border:1px solid var(--border-glow);">
                             <p style="font-size:12px;color:var(--neon-cyan);">📱 微信号: lisiqi*** <span style="color:var(--text-dim);font-size:10px;">(脱敏显示)</span></p>
                             <p style="font-size:12px;color:var(--neon-cyan);">🐧 QQ号: 284****92</p>
@@ -816,6 +816,26 @@
                 btn.style.background='var(--neon-green)';btn.style.color='#060b1a';btn.style.opacity='1';
                 showToast('🔓 暗号验证成功！私聊和联系方式已解锁');
             },1500);
+        }
+        function sendChatMessage(){
+            var input=document.getElementById('chatInput');
+            var msg=input.value.trim();
+            if(!msg)return;
+            var container=document.getElementById('chatMessages');
+            var div=document.createElement('div');
+            div.style.cssText='margin-bottom:6px;color:var(--neon-cyan);font-size:12px;text-align:right;';
+            div.textContent='我: '+msg;
+            container.appendChild(div);
+            input.value='';
+            container.parentElement.scrollTop=container.parentElement.scrollHeight;
+            setTimeout(function(){
+                var reply=document.createElement('div');
+                reply.style.cssText='margin-bottom:6px;color:var(--text-secondary);font-size:12px;';
+                var replies=['好的！收到啦~','没问题，就这么定啦','嗯嗯，那我等你哦','嘿嘿，好的！','明白，到时候见~'];
+                reply.textContent='李思琪: '+replies[Math.floor(Math.random()*replies.length)];
+                container.appendChild(reply);
+                container.parentElement.scrollTop=container.parentElement.scrollHeight;
+            },800+Math.random()*1200);
         }
         function publishTask(){closeModal('publishTaskModal');showToast('📤 求助发布成功！等待其他同学接单');}
         function switchHallTab(tab,name){
