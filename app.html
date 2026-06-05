@@ -171,7 +171,7 @@
         <div class="nav-actions">
             <span style="color:var(--neon-blue);font-family:'Exo 2',monospace;font-weight:600;">⏱ 328.5 TB</span>
             <button class="btn btn-outline btn-sm" onclick="showModal('vipModal')">👑 VIP</button>
-            <button class="btn btn-primary btn-sm">👤 小明同学</button>
+            <button class="btn btn-primary btn-sm" onclick="showModal('profileModal')">👤 小明同学</button>
         </div>
     </nav>
 
@@ -335,6 +335,22 @@
     <div class="modal-overlay" id="publishTaskModal"><div class="modal"><h3>📝 发布新求助</h3><div class="form-group"><label>求助标题</label><input type="text" class="input-field" placeholder="例如：帮忙辅导Python期末大作业"></div><div class="form-group"><label>详细描述</label><textarea class="input-field" rows="3" placeholder="描述你的具体需求..."></textarea></div><div class="card-grid card-grid-2"><div class="form-group"><label>悬赏时间币</label><input type="number" class="input-field" placeholder="5 - 200 TB" min="5" max="200"></div><div class="form-group"><label>截止时间</label><input type="date" class="input-field"></div></div><div class="form-group"><label><input type="checkbox"> 🔥 加急发布 (VIP特权，消耗双倍时间币)</label></div><button class="btn btn-primary btn-lg" style="width:100%;" onclick="publishTask()">📤 发布求助</button><button class="btn btn-outline btn-sm" style="margin-top:8px;width:100%;" onclick="closeModal('publishTaskModal')">取消</button></div></div>
 
     <div class="modal-overlay" id="swapConfirmModal"><div class="modal" style="text-align:center;"><h3>🤝 确认发起互换</h3><p style="color:var(--text-secondary);margin-bottom:8px;">你将与 <strong style="color:var(--neon-cyan);" id="swapPeerName">---</strong> 进行技能互换</p><div class="code-display" style="font-size:24px;letter-spacing:4px;" id="swapCode"></div><p style="color:var(--text-dim);font-size:12px;margin-bottom:16px;">互换发起后系统将生成专属安全暗号</p><div style="display:flex;gap:12px;"><button class="btn btn-outline btn-sm" style="flex:1;" onclick="closeModal('swapConfirmModal')">取消</button><button class="btn btn-primary" style="flex:1;" onclick="confirmSwap()">✅ 确认发起</button></div></div></div>
+
+    <div class="modal-overlay" id="profileModal"><div class="modal"><h3>👤 个人信息</h3>
+        <div style="text-align:center;margin-bottom:20px;"><div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;margin:0 auto 10px;box-shadow:0 0 20px rgba(0,212,255,0.3)">小</div><h4 style="color:var(--neon-cyan);font-size:20px;">小明同学</h4><span class="badge badge-blue">普通用户</span></div>
+        <div class="card-grid card-grid-2">
+            <div class="stat-card" style="text-align:center;"><div style="font-size:28px;margin-bottom:4px;">🏫</div><div style="font-size:12px;color:var(--text-dim);margin-bottom:4px;">学校</div><div style="font-weight:600;color:var(--text-primary);">XX大学</div></div>
+            <div class="stat-card" style="text-align:center;"><div style="font-size:28px;margin-bottom:4px;">📚</div><div style="font-size:12px;color:var(--text-dim);margin-bottom:4px;">专业</div><div style="font-weight:600;color:var(--text-primary);">计算机科学与技术</div></div>
+            <div class="stat-card" style="text-align:center;"><div style="font-size:28px;margin-bottom:4px;">👥</div><div style="font-size:12px;color:var(--text-dim);margin-bottom:4px;">班级</div><div style="font-weight:600;color:var(--text-primary);">2024级 计科3班</div></div>
+            <div class="stat-card" style="text-align:center;"><div style="font-size:28px;margin-bottom:4px;">🆔</div><div style="font-size:12px;color:var(--text-dim);margin-bottom:4px;">学号</div><div style="font-weight:600;color:var(--text-primary);">20240103001</div></div>
+        </div>
+        <div style="margin-top:16px;padding:12px;background:rgba(0,212,255,0.04);border-radius:var(--radius-sm);border:1px solid var(--border-subtle);">
+            <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:var(--text-secondary);"><span>⏱ 时间币余额</span><span style="color:var(--neon-blue);font-weight:600;">328.5 TB</span></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:var(--text-secondary);"><span>🌟 信誉积分</span><span style="color:var(--neon-purple);font-weight:600;">96/100</span></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:var(--text-secondary);"><span>📅 注册时间</span><span style="color:var(--text-dim);">2024-09-15</span></div>
+        </div>
+        <button class="btn btn-outline btn-sm" style="margin-top:16px;width:100%;" onclick="closeModal('profileModal')">关闭</button>
+    </div></div>
 
     <script>
         const canvas=document.getElementById('particleCanvas'),ctx=canvas.getContext('2d');
