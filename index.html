@@ -7,45 +7,93 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--gold-light:#ffe6b3;--gold:#d4af37;--gold-dark:#8b7355;--bg:#020617}
-body{background:var(--bg);width:100vw;height:100vh;overflow:hidden;font-family:'Noto Serif SC','Noto Sans SC',serif}
+:root{--gold-light:#ffe6b3;--gold:#d4af37;--gold-mid:#c9a84c;--gold-dark:#8b7355;--bg:#020617}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:'Noto Serif SC','Noto Sans SC',serif;cursor:default;user-select:none;-webkit-user-select:none}
+
 #starCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none}
 #threeCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:2;pointer-events:none}
-.ui-layer{position:fixed;top:0;left:0;width:100%;height:100%;z-index:10;pointer-events:none;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(20px,5vw,60px)}
-.ui-layer>*{pointer-events:auto}
-.title-block{text-align:center;opacity:0;animation:fadeInDown 1.2s cubic-bezier(0.16,1,0.3,1) 0.5s forwards}
-@keyframes fadeInDown{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
-.main-title{font-family:'Noto Serif SC',serif;font-size:clamp(36px,7vw,80px);font-weight:900;background:linear-gradient(180deg,#ffe6b3 0%,#d4af37 50%,#8b7355 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:0 0 40px rgba(212,175,55,0.5),0 0 80px rgba(212,175,55,0.3),0 0 120px rgba(212,175,55,0.15),0 2px 4px rgba(0,0,0,0.6);filter:drop-shadow(0 0 20px rgba(212,175,55,0.4))}
-.deco-line{width:clamp(80px,15vw,200px);height:2px;background:linear-gradient(90deg,transparent,var(--gold-light),var(--gold),var(--gold-light),transparent);margin:clamp(12px,2vw,24px) auto;opacity:0;animation:fadeIn 0.8s ease 1s forwards;box-shadow:0 0 12px rgba(212,175,55,0.5)}
+
+.top-nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:center;gap:clamp(16px,3vw,40px);padding:clamp(14px,2.5vh,28px) clamp(20px,5vw,60px);opacity:0;animation:fadeIn 0.8s ease 0.8s forwards}
+.top-nav a{font-family:'Noto Sans SC',sans-serif;font-size:clamp(12px,1.5vw,15px);font-weight:400;color:var(--gold-dark);text-decoration:none;letter-spacing:0.12em;transition:all 0.3s ease;position:relative;padding:4px 0}
+.top-nav a::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:1px;background:var(--gold);transition:width 0.3s ease;box-shadow:0 0 6px var(--gold)}
+.top-nav a:hover{color:var(--gold-light);text-shadow:0 0 12px rgba(212,175,55,0.5)}
+.top-nav a:hover::after{width:100%}
+.top-nav a.active{color:var(--gold);text-shadow:0 0 8px rgba(212,175,55,0.4)}
+.nav-brand{font-family:'Noto Serif SC',serif;font-size:clamp(14px,1.8vw,18px);font-weight:700;color:var(--gold-light);letter-spacing:0.2em;margin-right:clamp(16px,3vw,40px)}
+
+.side-dots{position:fixed;left:clamp(16px,3vw,40px);top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;align-items:center;gap:clamp(14px,2.5vh,28px);opacity:0;animation:fadeIn 0.8s ease 1.2s forwards}
+.side-dot{width:clamp(6px,1vw,10px);height:clamp(6px,1vw,10px);border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(212,175,55,0.6),0 0 20px rgba(212,175,55,0.2);transition:all 0.4s ease;cursor:pointer}
+.side-dot.dim{background:rgba(139,115,85,0.4);box-shadow:0 0 4px rgba(139,115,85,0.2)}
+.side-dot:hover{transform:scale(1.6);box-shadow:0 0 16px rgba(212,175,55,0.8),0 0 32px rgba(212,175,55,0.3)}
+.side-dot:nth-child(3){transform:scale(1.4);box-shadow:0 0 14px rgba(212,175,55,0.8),0 0 28px rgba(212,175,55,0.4)}
+
+.hero-text{position:fixed;top:clamp(8vh,12vh,16vh);left:50%;transform:translateX(-50%);z-index:15;text-align:center;pointer-events:none}
+.main-title{font-family:'Noto Serif SC',serif;font-size:clamp(38px,7vw,80px);font-weight:900;background:linear-gradient(180deg,#fff3d6 0%,#ffe6b3 20%,#d4af37 50%,#a67c1e 80%,#7a5a0a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:none;filter:drop-shadow(0 0 30px rgba(212,175,55,0.5)) drop-shadow(0 0 60px rgba(212,175,55,0.25));opacity:0;animation:fadeInDown 1.2s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;letter-spacing:0.15em}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-40px)}to{opacity:1;transform:translateY(0)}}
+.deco-line{width:clamp(100px,18vw,240px);height:1.5px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.6),var(--gold-light),rgba(212,175,55,0.6),transparent);margin:clamp(8px,1.5vh,20px) auto;opacity:0;animation:fadeIn 0.6s ease 0.9s forwards;box-shadow:0 0 10px rgba(212,175,55,0.4)}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.subtitle-text{font-family:'Noto Serif SC','Noto Sans SC',serif;font-size:clamp(14px,2.5vw,22px);font-weight:400;color:var(--gold-dark);letter-spacing:clamp(2px,0.5vw,6px);opacity:0;animation:fadeIn 0.8s ease 1.5s forwards;text-shadow:0 0 10px rgba(139,115,85,0.3)}
-.btn-block{opacity:0;animation:fadeIn 0.8s ease 2.5s forwards;margin-top:clamp(24px,4vw,48px)}
-.hex-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:clamp(80px,18vw,140px);height:clamp(46px,10vw,80px);background:rgba(212,175,55,0.05);border:2px solid rgba(212,175,55,0.5);color:var(--gold);font-family:'Noto Serif SC',serif;font-size:clamp(16px,3.5vw,28px);font-weight:700;letter-spacing:0.3em;cursor:pointer;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);transition:all 0.4s cubic-bezier(0.16,1,0.3,1);text-shadow:0 0 10px rgba(212,175,55,0.4);overflow:hidden}
-.hex-btn:hover{background:rgba(212,175,55,0.12);border-color:var(--gold-light);box-shadow:0 0 30px rgba(212,175,55,0.35),0 0 60px rgba(212,175,55,0.15),inset 0 0 30px rgba(212,175,55,0.08);transform:scale(1.05);color:var(--gold-light)}
-.hex-btn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,230,179,0.3),transparent);transition:left 0.6s ease}
-.hex-btn:hover::after{left:100%}
-.hex-btn:active{transform:scale(0.96)}
-.bottom-note{position:absolute;bottom:clamp(20px,4vw,40px);opacity:0;animation:fadeIn 0.8s ease 3s forwards;text-align:center}
-.bottom-note p{font-family:'Noto Sans SC',sans-serif;font-size:clamp(11px,1.8vw,14px);color:rgba(139,115,85,0.6);letter-spacing:0.15em;font-weight:300}
-@media(max-width:480px){.hex-btn{clip-path:polygon(50% 5%,95% 28%,95% 72%,50% 95%,5% 72%,5% 28%)}}
+.subtitle-text{font-family:'Noto Sans SC',sans-serif;font-size:clamp(14px,2.5vw,22px);font-weight:300;color:rgba(201,168,76,0.8);letter-spacing:clamp(3px,0.6vw,8px);opacity:0;animation:fadeIn 0.6s ease 1.4s forwards;text-shadow:0 0 8px rgba(139,115,85,0.2)}
+
+.enter-section{position:fixed;bottom:clamp(10vh,14vh,22vh);left:50%;transform:translateX(-50%);z-index:15;opacity:0;animation:fadeIn 0.8s ease 2s forwards}
+.enter-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:clamp(100px,22vw,170px);height:clamp(40px,8vw,58px);background:rgba(212,175,55,0.04);border:1.5px solid rgba(212,175,55,0.5);color:var(--gold-light);font-family:'Noto Serif SC',serif;font-size:clamp(15px,3vw,26px);font-weight:600;letter-spacing:0.4em;cursor:pointer;transition:all 0.5s cubic-bezier(0.16,1,0.3,1);text-shadow:0 0 12px rgba(212,175,55,0.5);overflow:hidden;border-radius:2px;backdrop-filter:blur(4px)}
+.enter-btn:hover{background:rgba(212,175,55,0.1);border-color:var(--gold-light);box-shadow:0 0 40px rgba(212,175,55,0.35),0 0 80px rgba(212,175,55,0.12),inset 0 0 30px rgba(212,175,55,0.06);transform:scale(1.04)}
+.enter-btn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,230,179,0.25),transparent);transition:left 0.7s ease}
+.enter-btn:hover::after{left:100%}
+.enter-btn:active{transform:scale(0.95)}
+
+.flame-mascot{position:fixed;right:clamp(20px,5vw,60px);top:50%;transform:translateY(-40%);z-index:12;font-size:clamp(40px,8vw,90px);opacity:0;animation:fadeIn 1s ease 1.6s forwards;filter:drop-shadow(0 0 20px rgba(255,180,50,0.5)) drop-shadow(0 0 40px rgba(255,140,0,0.3));pointer-events:none}
+.flame-mascot .flame-inner{animation:floatFlame 3s ease-in-out infinite}
+@keyframes floatFlame{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.06)}}
+
+.bottom-tag{position:fixed;bottom:clamp(18px,3vh,32px);left:50%;transform:translateX(-50%);z-index:15;opacity:0;animation:fadeIn 0.6s ease 2.5s forwards;pointer-events:none}
+.bottom-tag span{font-family:'Noto Sans SC',sans-serif;font-size:clamp(10px,1.5vw,13px);color:rgba(139,115,85,0.5);letter-spacing:0.2em;font-weight:300}
+
+@media(max-width:768px){
+  .top-nav{justify-content:flex-start;overflow-x:auto;gap:clamp(10px,2vw,20px);padding:12px 16px;mask-image:linear-gradient(90deg,#000 80%,transparent)}
+  .nav-brand{font-size:14px;margin-right:12px}
+  .side-dots{left:10px;gap:12px}
+  .side-dot{width:5px;height:5px}
+  .flame-mascot{right:8px;font-size:36px}
+}
 </style>
 </head>
 <body>
 <canvas id="starCanvas"></canvas>
 <canvas id="threeCanvas"></canvas>
 
-<div class="ui-layer">
-    <div class="title-block">
-        <h1 class="main-title">暗号玩家</h1>
-        <div class="deco-line"></div>
-        <p class="subtitle-text">顶级人生，从放下投机白嫖开始。</p>
-    </div>
-    <div class="btn-block">
-        <button class="hex-btn" onclick="location.href='app.html'">进入</button>
-    </div>
-    <div class="bottom-note">
-        <p>帮助大学生构建顶级的社交思维——价值交换。</p>
-    </div>
+<nav class="top-nav">
+    <span class="nav-brand">暗号玩家</span>
+    <a href="#" class="active">首页</a>
+    <a href="#">暗号系统</a>
+    <a href="#">玩家社区</a>
+    <a href="#">技术支持</a>
+    <a href="#">API 接口</a>
+</nav>
+
+<div class="side-dots">
+    <div class="side-dot dim"></div>
+    <div class="side-dot dim"></div>
+    <div class="side-dot"></div>
+    <div class="side-dot dim"></div>
+    <div class="side-dot dim"></div>
+</div>
+
+<div class="hero-text">
+    <h1 class="main-title">暗号玩家</h1>
+    <div class="deco-line"></div>
+    <p class="subtitle-text">顶级人生，从这里开始。</p>
+</div>
+
+<div class="enter-section">
+    <button class="enter-btn" onclick="location.href='app.html'">进入</button>
+</div>
+
+<div class="flame-mascot">
+    <div class="flame-inner">🔥</div>
+</div>
+
+<div class="bottom-tag">
+    <span>帮助大学生构建顶级的社交思维——价值交换。</span>
 </div>
 
 <script type="importmap">
@@ -55,6 +103,7 @@ body{background:var(--bg);width:100vw;height:100vh;overflow:hidden;font-family:'
 <script type="module">
 import * as THREE from 'three';
 
+// ============ Canvas 2D Starfield ============
 const starCanvas = document.getElementById('starCanvas');
 const sctx = starCanvas.getContext('2d');
 let stars = [];
@@ -70,35 +119,36 @@ class Star {
     constructor() { this.reset(true); }
     reset(init) {
         this.x = Math.random() * starCanvas.width;
-        this.y = init ? Math.random() * starCanvas.height : -5;
-        this.size = Math.random() * 2.2 + 0.3;
-        this.speed = Math.random() * 0.4 + 0.1;
-        this.opacity = Math.random() * 0.7 + 0.15;
-        this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+        this.y = init ? Math.random() * starCanvas.height : -8;
+        this.size = Math.random() * 2 + 0.3;
+        this.speed = Math.random() * 0.35 + 0.08;
+        this.opacity = Math.random() * 0.6 + 0.1;
+        this.twinkleSpeed = Math.random() * 0.025 + 0.004;
         this.twinklePhase = Math.random() * Math.PI * 2;
+        this.hue = Math.random() < 0.7 ? 42 : (Math.random() < 0.5 ? 30 : 50);
     }
     update() {
         this.y += this.speed;
-        if (this.y > starCanvas.height + 5) this.reset(false);
+        if (this.y > starCanvas.height + 8) this.reset(false);
         this.twinklePhase += this.twinkleSpeed;
     }
     draw(ctx) {
-        const alpha = this.opacity * (0.6 + 0.4 * Math.sin(this.twinklePhase));
+        const alpha = this.opacity * (0.55 + 0.45 * Math.sin(this.twinklePhase));
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(212,175,55,${alpha})`;
+        ctx.fillStyle = `hsla(${this.hue},70%,60%,${alpha})`;
         ctx.fill();
-        if (this.size > 1.2) {
+        if (this.size > 1) {
             ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size * 2.5, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(212,175,55,${alpha * 0.12})`;
+            ctx.arc(this.x, this.y, this.size * 2.8, 0, Math.PI * 2);
+            ctx.fillStyle = `hsla(${this.hue},70%,55%,${alpha * 0.08})`;
             ctx.fill();
         }
     }
 }
+for (let i = 0; i < 180; i++) stars.push(new Star());
 
-for (let i = 0; i < 200; i++) stars.push(new Star());
-
+// ============ Three.js Organic Ring Energy Structure ============
 const threeCanvas = document.getElementById('threeCanvas');
 const renderer = new THREE.WebGLRenderer({ canvas: threeCanvas, alpha: true, antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -106,9 +156,9 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000000, 0);
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 50);
-camera.position.set(0, 0.3, 9);
-camera.lookAt(0, 0, 0);
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 50);
+camera.position.set(0, 1.5, 8.5);
+camera.lookAt(0, -0.5, 0);
 
 window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -118,8 +168,8 @@ window.addEventListener('resize', () => {
 
 let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
 document.addEventListener('mousemove', e => {
-    targetX = (e.clientX / window.innerWidth - 0.5) * 0.6;
-    targetY = (e.clientY / window.innerHeight - 0.5) * 0.3;
+    targetX = (e.clientX / window.innerWidth - 0.5) * 0.5;
+    targetY = (e.clientY / window.innerHeight - 0.5) * 0.25;
 });
 
 function createGlowTexture(color, size) {
@@ -128,116 +178,216 @@ function createGlowTexture(color, size) {
     const cx = c.getContext('2d');
     const grad = cx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
     grad.addColorStop(0, color);
-    grad.addColorStop(0.1, color);
-    grad.addColorStop(0.4, 'rgba(0,0,0,0.3)');
-    grad.addColorStop(0.7, 'rgba(0,0,0,0.05)');
+    grad.addColorStop(0.08, color);
+    grad.addColorStop(0.35, 'rgba(180,140,60,0.4)');
+    grad.addColorStop(0.65, 'rgba(100,70,30,0.08)');
     grad.addColorStop(1, 'rgba(0,0,0,0)');
     cx.fillStyle = grad;
     cx.fillRect(0, 0, size, size);
     return new THREE.CanvasTexture(c);
 }
+const glowTex = createGlowTexture('rgba(255,230,179,0.95)', 64);
 
-const glowTex = createGlowTexture('rgba(255,230,179,0.9)', 64);
-const sandglassGroup = new THREE.Group();
-scene.add(sandglassGroup);
+const mainGroup = new THREE.Group();
+scene.add(mainGroup);
 
-const particlesGeo = new THREE.BufferGeometry();
-const positions = [];
-const colors = [];
-const RINGS = 80, POINTS = 60, Y_MIN = -5, Y_MAX = 5;
-const goldColors = [
-    new THREE.Color('#ffe6b3'), new THREE.Color('#d4af37'), new THREE.Color('#8b7355'),
-    new THREE.Color('#c9a84c'), new THREE.Color('#f0d78c')
-];
+// Build organic wave rings - gravity well structure
+const RING_LAYERS = 7;
+const PARTICLES_PER_RING = 280;
+const allParticleData = [];
 
-let allPoints = [];
+// Helper: wave-perturbed radius at angle theta for a given ring
+function waveRadius(theta, layerIndex, layerCount, time) {
+    const baseR = 1.4 + Math.sin((layerIndex / layerCount) * Math.PI) * 1.2;
+    const waves = 2 + layerIndex;
+    const amp = 0.25 + layerIndex * 0.06;
+    return baseR + Math.sin(waves * theta + time * 0.3 + layerIndex * 1.2) * amp
+         + Math.sin(waves * 2.3 * theta + time * 0.5 + layerIndex * 2.1) * amp * 0.5;
+}
 
-for (let r = 0; r < RINGS; r++) {
-    const t = r / (RINGS - 1);
-    const y = Y_MIN + t * (Y_MAX - Y_MIN);
-    const radius = 0.4 + 2.2 * Math.pow(Math.abs(t - 0.5) * 2, 1.2);
-    const ring = [];
-    for (let p = 0; p < POINTS; p++) {
-        const angle = (p / POINTS) * Math.PI * 2;
-        const x = Math.cos(angle) * radius;
-        const z = Math.sin(angle) * radius;
-        positions.push(x, y, z);
+// Create ring layers
+for (let l = 0; l < RING_LAYERS; l++) {
+    const t = l / (RING_LAYERS - 1);
+    const baseY = -2.8 + t * 5.6;
+    const tiltX = (t - 0.5) * 0.6;
+    const tiltZ = 0.15 + t * 0.3;
+    const ringData = [];
+
+    const positions = [];
+    const colors = [];
+    const goldColors = [
+        new THREE.Color('#ffe6b3'), new THREE.Color('#d4af37'), new THREE.Color('#c9a84c'),
+        new THREE.Color('#f0d78c'), new THREE.Color('#8b7355')
+    ];
+
+    for (let p = 0; p < PARTICLES_PER_RING; p++) {
+        const theta = (p / PARTICLES_PER_RING) * Math.PI * 2;
+        const r = waveRadius(theta, l, RING_LAYERS - 1, 0);
+        const localX = Math.cos(theta) * r;
+        const localZ = Math.sin(theta) * r;
+        // Apply tilt
+        const cosTX = Math.cos(tiltX), sinTX = Math.sin(tiltX);
+        const cosTZ = Math.cos(tiltZ), sinTZ = Math.sin(tiltZ);
+        const rx = localX * cosTZ - localZ * sinTZ;
+        const rz = localX * sinTZ + localZ * cosTZ;
+        const ry = baseY + localZ * sinTX;
+        const fx = rx;
+        const fy = ry * cosTX - localZ * sinTX;
+        const fz = rz;
+
+        positions.push(fx, fy, fz);
         const ci = Math.floor(Math.random() * goldColors.length);
-        const col = goldColors[ci].clone();
-        col.multiplyScalar(0.7 + Math.random() * 0.3);
+        const col = goldColors[ci].clone().multiplyScalar(0.65 + Math.random() * 0.35);
         colors.push(col.r, col.g, col.b);
-        ring.push({ x, y, z, idx: positions.length / 3 - 1 });
+        ringData.push({ x: fx, y: fy, z: fz, theta, baseR: r, layerIndex: l });
     }
-    allPoints.push(ring);
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    const mat = new THREE.PointsMaterial({
+        size: 0.045, map: glowTex, blending: THREE.AdditiveBlending,
+        depthWrite: false, vertexColors: true, transparent: true, opacity: 0.85,
+    });
+    mainGroup.add(new THREE.Points(geo, mat));
+    allParticleData.push({ positions: new Float32Array(positions), ringData, layerIndex: l, baseY, tiltX, tiltZ });
 }
 
-particlesGeo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-particlesGeo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-
-const particlesMat = new THREE.PointsMaterial({
-    size: 0.06, map: glowTex, blending: THREE.AdditiveBlending,
-    depthWrite: false, vertexColors: true, transparent: true, opacity: 0.85,
-});
-sandglassGroup.add(new THREE.Points(particlesGeo, particlesMat));
-
-const lngLineGroup = new THREE.Group();
-for (let r = 0; r < RINGS - 1; r++) {
-    for (let p = 0; p < POINTS; p++) {
-        const a = allPoints[r][p], b = allPoints[r + 1][p];
-        if (Math.hypot(b.x - a.x, b.y - a.y, b.z - a.z) > 1.5) continue;
-        const lnGeo = new THREE.BufferGeometry();
-        lnGeo.setAttribute('position', new THREE.Float32BufferAttribute([a.x,a.y,a.z,b.x,b.y,b.z], 3));
-        lngLineGroup.add(new THREE.Line(lnGeo, new THREE.LineBasicMaterial({
-            color: 0x8b7355, transparent: true, opacity: 0.15,
-            blending: THREE.AdditiveBlending, depthWrite: false,
-        })));
+// Create connection lines within each ring (weblike)
+for (let l = 0; l < RING_LAYERS; l++) {
+    const data = allParticleData[l];
+    const linePositions = [];
+    const pts = data.ringData;
+    for (let i = 0; i < pts.length; i++) {
+        const j = (i + 1) % pts.length;
+        linePositions.push(pts[i].x, pts[i].y, pts[i].z, pts[j].x, pts[j].y, pts[j].z);
+        // Cross connections every 8 particles
+        if (i % 8 === 0) {
+            const k = (i + 8) % pts.length;
+            linePositions.push(pts[i].x, pts[i].y, pts[i].z, pts[k].x, pts[k].y, pts[k].z);
+        }
     }
-}
-sandglassGroup.add(lngLineGroup);
-
-const latLineGroup = new THREE.Group();
-for (let r = 0; r < RINGS; r++) {
-    const lnGeo = new THREE.BufferGeometry();
-    const pts = [];
-    for (let p = 0; p < POINTS; p++) { const pt = allPoints[r][p]; pts.push(pt.x, pt.y, pt.z); }
-    pts.push(allPoints[r][0].x, allPoints[r][0].y, allPoints[r][0].z);
-    lnGeo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-    const t = r / (RINGS - 1), alpha = t < 0.5 ? t * 2 : (1 - t) * 2;
-    latLineGroup.add(new THREE.Line(lnGeo, new THREE.LineBasicMaterial({
-        color: 0xd4af37, transparent: true, opacity: 0.08 + alpha * 0.12,
+    const lineGeo = new THREE.BufferGeometry();
+    lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+    const alpha = 0.06 + (l / RING_LAYERS) * 0.08;
+    const lineMat = new THREE.LineBasicMaterial({
+        color: 0xd4af37, transparent: true, opacity: alpha,
         blending: THREE.AdditiveBlending, depthWrite: false,
-    })));
+    });
+    mainGroup.add(new THREE.LineSegments(lineGeo, lineMat));
 }
-sandglassGroup.add(latLineGroup);
 
-const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.25, 32, 32),
-    new THREE.MeshBasicMaterial({ color: 0xffe6b3, transparent: true, opacity: 0.9 }));
-sandglassGroup.add(sphere);
+// Inter-ring vertical connection lines
+for (let l = 0; l < RING_LAYERS - 1; l++) {
+    const ptsA = allParticleData[l].ringData;
+    const ptsB = allParticleData[l + 1].ringData;
+    const interPositions = [];
+    const step = Math.floor(PARTICLES_PER_RING / 40);
+    for (let i = 0; i < PARTICLES_PER_RING; i += step) {
+        const a = ptsA[i], b = ptsB[i];
+        interPositions.push(a.x, a.y, a.z, b.x, b.y, b.z);
+    }
+    const interGeo = new THREE.BufferGeometry();
+    interGeo.setAttribute('position', new THREE.Float32BufferAttribute(interPositions, 3));
+    const interMat = new THREE.LineBasicMaterial({
+        color: 0x8b7355, transparent: true, opacity: 0.06,
+        blending: THREE.AdditiveBlending, depthWrite: false,
+    });
+    mainGroup.add(new THREE.LineSegments(interGeo, interMat));
+}
 
-const glow1 = new THREE.Mesh(new THREE.SphereGeometry(0.45, 32, 32),
-    new THREE.MeshBasicMaterial({ color: 0xd4af37, transparent: true, opacity: 0.25, blending: THREE.AdditiveBlending, depthWrite: false }));
-sandglassGroup.add(glow1);
+// Central core glow
+const coreGeo = new THREE.SphereGeometry(0.15, 32, 32);
+const coreMat = new THREE.MeshBasicMaterial({ color: 0xffe6b3, transparent: true, opacity: 0.9 });
+const core = new THREE.Mesh(coreGeo, coreMat);
+mainGroup.add(core);
 
-const glow2 = new THREE.Mesh(new THREE.SphereGeometry(0.75, 32, 32),
-    new THREE.MeshBasicMaterial({ color: 0xd4af37, transparent: true, opacity: 0.08, blending: THREE.AdditiveBlending, depthWrite: false }));
-sandglassGroup.add(glow2);
+const glow1Geo = new THREE.SphereGeometry(0.3, 32, 32);
+const glow1Mat = new THREE.MeshBasicMaterial({
+    color: 0xd4af37, transparent: true, opacity: 0.3, blending: THREE.AdditiveBlending, depthWrite: false,
+});
+const glow1 = new THREE.Mesh(glow1Geo, glow1Mat);
+mainGroup.add(glow1);
 
+const glow2Geo = new THREE.SphereGeometry(0.55, 32, 32);
+const glow2Mat = new THREE.MeshBasicMaterial({
+    color: 0xc9a84c, transparent: true, opacity: 0.1, blending: THREE.AdditiveBlending, depthWrite: false,
+});
+const glow2 = new THREE.Mesh(glow2Geo, glow2Mat);
+mainGroup.add(glow2);
+
+// Floating ambient particles around the structure
 const ambientGeo = new THREE.BufferGeometry();
 const ambientPos = [], ambientCol = [];
-for (let i = 0; i < 300; i++) {
-    const phi = Math.random() * Math.PI * 2, theta = Math.random() * Math.PI, r = 0.3 + Math.random() * 1.2;
-    ambientPos.push(Math.cos(phi) * Math.sin(theta) * r, Math.cos(theta) * r * 0.6, Math.sin(phi) * Math.sin(theta) * r);
-    ambientCol.push(1, 0.88 + Math.random() * 0.12, 0.65 + Math.random() * 0.35);
+for (let i = 0; i < 400; i++) {
+    const phi = Math.random() * Math.PI * 2;
+    const theta = Math.random() * Math.PI;
+    const r = 0.5 + Math.random() * 2.2;
+    ambientPos.push(
+        Math.cos(phi) * Math.sin(theta) * r,
+        (Math.random() - 0.5) * 4.5,
+        Math.sin(phi) * Math.sin(theta) * r
+    );
+    const val = 0.7 + Math.random() * 0.3;
+    ambientCol.push(val, val * 0.75, val * 0.45);
 }
 ambientGeo.setAttribute('position', new THREE.Float32BufferAttribute(ambientPos, 3));
 ambientGeo.setAttribute('color', new THREE.Float32BufferAttribute(ambientCol, 3));
 const ambientCloud = new THREE.Points(ambientGeo, new THREE.PointsMaterial({
-    size: 0.03, map: glowTex, blending: THREE.AdditiveBlending, depthWrite: false, vertexColors: true, transparent: true, opacity: 0.5,
+    size: 0.025, map: glowTex, blending: THREE.AdditiveBlending,
+    depthWrite: false, vertexColors: true, transparent: true, opacity: 0.4,
 }));
-sandglassGroup.add(ambientCloud);
+mainGroup.add(ambientCloud);
 
+// Store references for animation update
+const ringPointClouds = [];
+const ringLineSegments = [];
+mainGroup.children.forEach(child => {
+    if (child.isPoints && child.geometry.attributes.position.count === PARTICLES_PER_RING) {
+        ringPointClouds.push(child);
+    }
+    if (child.isLineSegments && child.geometry.attributes.position) {
+        ringLineSegments.push(child);
+    }
+});
+
+// ============ Animation ============
 const clock = new THREE.Clock();
-let particleOpacity = 0;
+let opacityFade = 0;
+
+function updateRingPositions(time) {
+    for (let l = 0; l < RING_LAYERS; l++) {
+        const data = allParticleData[l];
+        const pos = data.positions;
+        const ptIdx = Math.min(l, ringPointClouds.length - 1);
+        const cloud = ringPointClouds[ptIdx];
+        if (!cloud) continue;
+
+        const arr = cloud.geometry.attributes.position.array;
+        for (let p = 0; p < PARTICLES_PER_RING; p++) {
+            const theta = (p / PARTICLES_PER_RING) * Math.PI * 2;
+            const r = waveRadius(theta, l, RING_LAYERS - 1, time);
+            const localX = Math.cos(theta) * r;
+            const localZ = Math.sin(theta) * r;
+
+            const tiltX = data.tiltX, tiltZ = data.tiltZ;
+            const cosTX = Math.cos(tiltX), sinTX = Math.sin(tiltX);
+            const cosTZ = Math.cos(tiltZ), sinTZ = Math.sin(tiltZ);
+            const rx = localX * cosTZ - localZ * sinTZ;
+            const rz = localX * sinTZ + localZ * cosTZ;
+            const ry = data.baseY + localZ * sinTX;
+
+            const idx = p * 3;
+            arr[idx] = rx;
+            arr[idx + 1] = ry * cosTX - localZ * sinTX;
+            arr[idx + 2] = rz;
+            data.ringData[p].x = arr[idx];
+            data.ringData[p].y = arr[idx + 1];
+            data.ringData[p].z = arr[idx + 2];
+        }
+        cloud.geometry.attributes.position.needsUpdate = true;
+    }
+}
 
 function animate() {
     requestAnimationFrame(animate);
@@ -247,27 +397,26 @@ function animate() {
     sctx.clearRect(0, 0, starCanvas.width, starCanvas.height);
     stars.forEach(s => { s.update(); s.draw(sctx); });
 
-    mouseX += (targetX - mouseX) * 0.03;
-    mouseY += (targetY - mouseY) * 0.03;
+    mouseX += (targetX - mouseX) * 0.025;
+    mouseY += (targetY - mouseY) * 0.025;
 
-    sandglassGroup.rotation.y += 0.003;
-    sandglassGroup.rotation.x = mouseY * 0.4;
-    sandglassGroup.rotation.z = -mouseX * 0.2;
+    mainGroup.rotation.y += 0.002;
+    mainGroup.rotation.x = mouseY * 0.35 + 0.1;
+    mainGroup.rotation.z = -mouseX * 0.15;
 
-    const pulse = 1 + Math.sin(time * 1.8) * 0.15 + Math.sin(time * 3.3) * 0.08;
-    sphere.scale.setScalar(pulse);
-    sphere.material.opacity = 0.75 + Math.sin(time * 2.2) * 0.25;
-    glow1.scale.setScalar(pulse * 0.9 + 0.1);
-    glow1.material.opacity = 0.2 + Math.sin(time * 1.5) * 0.1;
-    glow2.scale.setScalar(pulse * 0.7 + 0.3);
-    glow2.rotation.y += 0.004;
-    glow2.rotation.x += 0.002;
-    ambientCloud.rotation.y += 0.002;
+    updateRingPositions(time);
+
+    const pulse = 1 + Math.sin(time * 1.6) * 0.2 + Math.sin(time * 3.8) * 0.1;
+    core.scale.setScalar(pulse);
+    coreMat.opacity = 0.7 + Math.sin(time * 2.5) * 0.3;
+    glow1.scale.setScalar(pulse * 0.85 + 0.15);
+    glow1Mat.opacity = 0.2 + Math.sin(time * 1.8) * 0.12;
+    glow2.scale.setScalar(pulse * 0.6 + 0.4);
+    glow2.rotation.y += 0.005;
+    ambientCloud.rotation.y += 0.0015;
     ambientCloud.rotation.x += 0.001;
 
-    particleOpacity = Math.min(1, particleOpacity + dt * 0.5);
-    particlesMat.opacity = 0.85 * particleOpacity;
-    ambientCloud.material.opacity = 0.5 * particleOpacity;
+    opacityFade = Math.min(1, opacityFade + dt * 0.4);
 
     renderer.render(scene, camera);
 }
