@@ -25,17 +25,26 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 .side-dot{width:clamp(6px,1vw,10px);height:clamp(6px,1vw,10px);border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(212,175,55,0.6),0 0 20px rgba(212,175,55,0.2);transition:all 0.4s ease;cursor:pointer}
 .side-dot.dim{background:rgba(139,115,85,0.4);box-shadow:0 0 4px rgba(139,115,85,0.2)}
 .side-dot:hover{transform:scale(1.6);box-shadow:0 0 16px rgba(212,175,55,0.8),0 0 32px rgba(212,175,55,0.3)}
-.side-dot:nth-child(3){transform:scale(1.4);box-shadow:0 0 14px rgba(212,175,55,0.8),0 0 28px rgba(212,175,55,0.4)}
+.side-dot:nth-child(1){animation:dotPulse 2.4s ease-in-out 1.8s infinite}
+.side-dot:nth-child(2){animation:dotPulse 2.4s ease-in-out 2.0s infinite}
+.side-dot:nth-child(3){animation:dotBoost 2.4s ease-in-out 1.8s infinite}
+.side-dot:nth-child(4){animation:dotPulse 2.4s ease-in-out 2.2s infinite}
+.side-dot:nth-child(5){animation:dotPulse 2.4s ease-in-out 2.4s infinite}
+@keyframes dotPulse{0%,100%{box-shadow:0 0 4px rgba(139,115,85,0.2)}50%{box-shadow:0 0 10px rgba(212,175,55,0.5),0 0 20px rgba(212,175,55,0.15)}}
+@keyframes dotBoost{0%,100%{box-shadow:0 0 14px rgba(212,175,55,0.8),0 0 28px rgba(212,175,55,0.4)}50%{box-shadow:0 0 24px rgba(212,175,55,0.95),0 0 42px rgba(212,175,55,0.55),0 0 60px rgba(255,230,179,0.15)}}
 
 .hero-text{position:fixed;top:clamp(8vh,12vh,16vh);left:50%;transform:translateX(-50%);z-index:15;text-align:center;pointer-events:none}
-.main-title{font-family:'Noto Serif SC',serif;font-size:clamp(38px,7vw,80px);font-weight:900;background:linear-gradient(180deg,#fff3d6 0%,#ffe6b3 20%,#d4af37 50%,#a67c1e 80%,#7a5a0a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:none;filter:drop-shadow(0 0 30px rgba(212,175,55,0.5)) drop-shadow(0 0 60px rgba(212,175,55,0.25));opacity:0;animation:fadeInDown 1.2s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;letter-spacing:0.15em}
+.main-title{font-family:'Noto Serif SC',serif;font-size:clamp(38px,7vw,80px);font-weight:900;background:linear-gradient(180deg,#fff3d6 0%,#ffe6b3 20%,#d4af37 50%,#a67c1e 80%,#7a5a0a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:none;opacity:0;animation:fadeInDown 1.2s cubic-bezier(0.16,1,0.3,1) 0.3s forwards,titleGlow 3s ease-in-out 1.8s infinite;letter-spacing:0.15em}
+@keyframes titleGlow{0%,100%{filter:drop-shadow(0 0 30px rgba(212,175,55,0.5)) drop-shadow(0 0 60px rgba(212,175,55,0.25))}50%{filter:drop-shadow(0 0 45px rgba(212,175,55,0.7)) drop-shadow(0 0 80px rgba(212,175,55,0.4)) drop-shadow(0 0 120px rgba(255,230,179,0.2))}}
 @keyframes fadeInDown{from{opacity:0;transform:translateY(-40px)}to{opacity:1;transform:translateY(0)}}
-.deco-line{width:clamp(100px,18vw,240px);height:1.5px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.6),var(--gold-light),rgba(212,175,55,0.6),transparent);margin:clamp(8px,1.5vh,20px) auto;opacity:0;animation:fadeIn 0.6s ease 0.9s forwards;box-shadow:0 0 10px rgba(212,175,55,0.4)}
+.deco-line{width:clamp(100px,18vw,240px);height:1.5px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.6),var(--gold-light),rgba(212,175,55,0.6),transparent);margin:clamp(8px,1.5vh,20px) auto;opacity:0;animation:fadeIn 0.6s ease 0.9s forwards,lineShimmer 3s ease-in-out 1.8s infinite;box-shadow:0 0 10px rgba(212,175,55,0.4)}
+@keyframes lineShimmer{0%,100%{box-shadow:0 0 10px rgba(212,175,55,0.4);opacity:1}50%{box-shadow:0 0 22px rgba(212,175,55,0.65),0 0 36px rgba(255,230,179,0.2);opacity:0.85}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .subtitle-text{font-family:'Noto Sans SC',sans-serif;font-size:clamp(14px,2.5vw,22px);font-weight:300;color:rgba(201,168,76,0.8);letter-spacing:clamp(3px,0.6vw,8px);opacity:0;animation:fadeIn 0.6s ease 1.4s forwards;text-shadow:0 0 8px rgba(139,115,85,0.2)}
 
 .enter-section{position:fixed;bottom:clamp(10vh,14vh,22vh);left:50%;transform:translateX(-50%);z-index:15;opacity:0;animation:fadeIn 0.8s ease 2s forwards}
-.enter-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:clamp(100px,22vw,170px);height:clamp(40px,8vw,58px);background:rgba(212,175,55,0.04);border:1.5px solid rgba(212,175,55,0.5);color:var(--gold-light);font-family:'Noto Serif SC',serif;font-size:clamp(15px,3vw,26px);font-weight:600;letter-spacing:0.4em;cursor:pointer;transition:all 0.5s cubic-bezier(0.16,1,0.3,1);text-shadow:0 0 12px rgba(212,175,55,0.5);overflow:hidden;border-radius:2px;backdrop-filter:blur(4px)}
+.enter-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:clamp(100px,22vw,170px);height:clamp(40px,8vw,58px);background:rgba(212,175,55,0.04);border:1.5px solid rgba(212,175,55,0.5);color:var(--gold-light);font-family:'Noto Serif SC',serif;font-size:clamp(15px,3vw,26px);font-weight:600;letter-spacing:0.4em;cursor:pointer;transition:all 0.5s cubic-bezier(0.16,1,0.3,1);text-shadow:0 0 12px rgba(212,175,55,0.5);overflow:hidden;border-radius:2px;backdrop-filter:blur(4px);animation:btnBreathe 2.8s ease-in-out 2.8s infinite}
+@keyframes btnBreathe{0%,100%{border-color:rgba(212,175,55,0.5);box-shadow:0 0 20px rgba(212,175,55,0.1)}50%{border-color:rgba(212,175,55,0.75);box-shadow:0 0 32px rgba(212,175,55,0.18),0 0 50px rgba(212,175,55,0.06)}}
 .enter-btn:hover{background:rgba(212,175,55,0.1);border-color:var(--gold-light);box-shadow:0 0 40px rgba(212,175,55,0.35),0 0 80px rgba(212,175,55,0.12),inset 0 0 30px rgba(212,175,55,0.06);transform:scale(1.04)}
 .enter-btn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,230,179,0.25),transparent);transition:left 0.7s ease}
 .enter-btn:hover::after{left:100%}
@@ -148,6 +157,42 @@ class Star {
 }
 for (let i = 0; i < 180; i++) stars.push(new Star());
 
+// Shooting stars
+class ShootingStar {
+    constructor() { this.reset(true); }
+    reset(init) {
+        this.active = false;
+        if (!init && Math.random() < 0.012) this.spawn();
+    }
+    spawn() {
+        this.x = Math.random() * starCanvas.width * 0.7;
+        this.y = Math.random() * starCanvas.height * 0.5;
+        this.vx = (Math.random() * 3 + 4) * (Math.random() < 0.5 ? 1 : -1);
+        this.vy = Math.random() * 1.5 + 1;
+        this.length = Math.random() * 80 + 60;
+        this.life = 1;
+        this.alive = true;
+    }
+    update() {
+        if (!this.alive) return this.reset(false);
+        this.x += this.vx; this.y += this.vy;
+        this.life -= 0.018;
+        if (this.life <= 0 || this.x < -100 || this.x > starCanvas.width + 100 || this.y > starCanvas.height + 100) this.alive = false;
+    }
+    draw(ctx) {
+        if (!this.alive) return;
+        const ax = this.life * 0.4 + 0.3;
+        const grad = ctx.createLinearGradient(this.x, this.y, this.x - this.vx * 12, this.y - this.vy * 12);
+        grad.addColorStop(0, `rgba(255,230,179,${ax})`);
+        grad.addColorStop(0.5, `rgba(212,175,55,${ax * 0.4})`);
+        grad.addColorStop(1, 'rgba(212,175,55,0)');
+        ctx.strokeStyle = grad; ctx.lineWidth = 1.2; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(this.x, this.y); ctx.lineTo(this.x - this.vx * 12, this.y - this.vy * 12); ctx.stroke();
+    }
+}
+const shootingStars = [];
+for (let i = 0; i < 3; i++) shootingStars.push(new ShootingStar());
+
 // ============ Three.js Organic Ring Energy Structure ============
 const threeCanvas = document.getElementById('threeCanvas');
 const renderer = new THREE.WebGLRenderer({ canvas: threeCanvas, alpha: true, antialias: true });
@@ -197,12 +242,14 @@ const PARTICLES_PER_RING = 280;
 const allParticleData = [];
 
 // Helper: wave-perturbed radius at angle theta for a given ring
-function waveRadius(theta, layerIndex, layerCount, time) {
+function waveRadius(theta, layerIndex, layerCount, time, globalAmp) {
     const baseR = 1.4 + Math.sin((layerIndex / layerCount) * Math.PI) * 1.2;
     const waves = 2 + layerIndex;
-    const amp = 0.25 + layerIndex * 0.06;
-    return baseR + Math.sin(waves * theta + time * 0.3 + layerIndex * 1.2) * amp
-         + Math.sin(waves * 2.3 * theta + time * 0.5 + layerIndex * 2.1) * amp * 0.5;
+    const amp = (0.25 + layerIndex * 0.07) * globalAmp;
+    return baseR
+         + Math.sin(waves * theta + time * 0.4 + layerIndex * 1.2) * amp
+         + Math.sin(waves * 2.3 * theta + time * 0.6 + layerIndex * 2.1) * amp * 0.6
+         + Math.sin(waves * 0.7 * theta - time * 0.25 + layerIndex * 0.5) * amp * 0.35;
 }
 
 // Create ring layers
@@ -222,7 +269,7 @@ for (let l = 0; l < RING_LAYERS; l++) {
 
     for (let p = 0; p < PARTICLES_PER_RING; p++) {
         const theta = (p / PARTICLES_PER_RING) * Math.PI * 2;
-        const r = waveRadius(theta, l, RING_LAYERS - 1, 0);
+        const r = waveRadius(theta, l, RING_LAYERS - 1, 0, 1);
         const localX = Math.cos(theta) * r;
         const localZ = Math.sin(theta) * r;
         // Apply tilt
@@ -341,24 +388,41 @@ mainGroup.add(ambientCloud);
 
 // Store references for animation update
 const ringPointClouds = [];
-const ringLineSegments = [];
+const ringLineGroups = []; // {segments: LineSegments, pts: ringData} for each ring
+const interLineGroups = []; // {segments: LineSegments, ptsA, ptsB} for inter-ring
+
+let segIdx = 0;
 mainGroup.children.forEach(child => {
-    if (child.isPoints && child.geometry.attributes.position.count === PARTICLES_PER_RING) {
+    if (child.isPoints && child.geometry?.attributes?.position?.count === PARTICLES_PER_RING) {
         ringPointClouds.push(child);
     }
-    if (child.isLineSegments && child.geometry.attributes.position) {
-        ringLineSegments.push(child);
-    }
 });
+// Identify ring lines (first RING_LAYERS LineSegments after point clouds)
+let lineCount = 0;
+for (const child of mainGroup.children) {
+    if (child.isLineSegments && child.geometry?.attributes?.position) {
+        const count = child.geometry.attributes.position.count;
+        // Ring lines have ~PARTICLES_PER_RING*2 + cross points
+        if (count > 500 && lineCount < RING_LAYERS) {
+            ringLineGroups.push({ segments: child, ringIdx: lineCount });
+            lineCount++;
+        } else if (count < 300) {
+            interLineGroups.push({ segments: child });
+        }
+    }
+}
+
+// Store per-ring material for opacity pulsing
+const ringMaterials = ringPointClouds.map(c => c.material);
+const lineMaterials = ringLineGroups.map(g => g.segments.material);
 
 // ============ Animation ============
 const clock = new THREE.Clock();
 let opacityFade = 0;
 
-function updateRingPositions(time) {
+function updateRingPositions(time, globalAmp) {
     for (let l = 0; l < RING_LAYERS; l++) {
         const data = allParticleData[l];
-        const pos = data.positions;
         const ptIdx = Math.min(l, ringPointClouds.length - 1);
         const cloud = ringPointClouds[ptIdx];
         if (!cloud) continue;
@@ -366,7 +430,7 @@ function updateRingPositions(time) {
         const arr = cloud.geometry.attributes.position.array;
         for (let p = 0; p < PARTICLES_PER_RING; p++) {
             const theta = (p / PARTICLES_PER_RING) * Math.PI * 2;
-            const r = waveRadius(theta, l, RING_LAYERS - 1, time);
+            const r = waveRadius(theta, l, RING_LAYERS - 1, time, globalAmp);
             const localX = Math.cos(theta) * r;
             const localZ = Math.sin(theta) * r;
 
@@ -386,6 +450,27 @@ function updateRingPositions(time) {
             data.ringData[p].z = arr[idx + 2];
         }
         cloud.geometry.attributes.position.needsUpdate = true;
+
+        // Update ring line segments
+        const rl = ringLineGroups[l];
+        if (rl && rl.segments.geometry.attributes.position) {
+            const lineArr = rl.segments.geometry.attributes.position.array;
+            const pts = data.ringData;
+            let li = 0;
+            for (let i = 0; i < pts.length && li + 5 < lineArr.length; i++) {
+                const j = (i + 1) % pts.length;
+                lineArr[li] = pts[i].x; lineArr[li + 1] = pts[i].y; lineArr[li + 2] = pts[i].z;
+                lineArr[li + 3] = pts[j].x; lineArr[li + 4] = pts[j].y; lineArr[li + 5] = pts[j].z;
+                li += 6;
+                if (i % 8 === 0 && li + 5 < lineArr.length) {
+                    const k = (i + 8) % pts.length;
+                    lineArr[li] = pts[i].x; lineArr[li + 1] = pts[i].y; lineArr[li + 2] = pts[i].z;
+                    lineArr[li + 3] = pts[k].x; lineArr[li + 4] = pts[k].y; lineArr[li + 5] = pts[k].z;
+                    li += 6;
+                }
+            }
+            rl.segments.geometry.attributes.position.needsUpdate = true;
+        }
     }
 }
 
@@ -396,27 +481,48 @@ function animate() {
 
     sctx.clearRect(0, 0, starCanvas.width, starCanvas.height);
     stars.forEach(s => { s.update(); s.draw(sctx); });
+    shootingStars.forEach(s => { s.update(); s.draw(sctx); });
 
-    mouseX += (targetX - mouseX) * 0.025;
-    mouseY += (targetY - mouseY) * 0.025;
+    // Idle auto-drift when no mouse input
+    if (Math.abs(targetX) < 0.01 && Math.abs(targetY) < 0.01) {
+        targetX = Math.sin(time * 0.3) * 0.15;
+        targetY = Math.cos(time * 0.25) * 0.08;
+    }
+    mouseX += (targetX - mouseX) * 0.02;
+    mouseY += (targetY - mouseY) * 0.02;
 
     mainGroup.rotation.y += 0.002;
-    mainGroup.rotation.x = mouseY * 0.35 + 0.1;
-    mainGroup.rotation.z = -mouseX * 0.15;
+    mainGroup.rotation.x = mouseY * 0.4 + 0.08;
+    mainGroup.rotation.z = -mouseX * 0.18;
 
-    updateRingPositions(time);
+    // Global breath amplitude - all rings pulse together
+    const globalAmp = 1 + Math.sin(time * 0.55) * 0.18 + Math.sin(time * 1.2) * 0.08;
+    updateRingPositions(time, globalAmp);
 
+    // Per-ring brightness pulsing (staggered)
+    for (let l = 0; l < ringMaterials.length; l++) {
+        const ringPulse = 0.65 + 0.35 * (0.5 + 0.5 * Math.sin(time * 1.3 + l * 0.7));
+        ringMaterials[l].opacity = 0.85 * ringPulse * opacityFade;
+    }
+    for (let l = 0; l < lineMaterials.length; l++) {
+        const alpha = 0.06 + (l / RING_LAYERS) * 0.08;
+        lineMaterials[l].opacity = alpha * (0.7 + 0.3 * Math.sin(time * 1.5 + l * 0.6)) * opacityFade;
+    }
+
+    // Core pulse cascade
     const pulse = 1 + Math.sin(time * 1.6) * 0.2 + Math.sin(time * 3.8) * 0.1;
     core.scale.setScalar(pulse);
-    coreMat.opacity = 0.7 + Math.sin(time * 2.5) * 0.3;
+    coreMat.opacity = (0.7 + Math.sin(time * 2.5) * 0.3) * opacityFade;
     glow1.scale.setScalar(pulse * 0.85 + 0.15);
-    glow1Mat.opacity = 0.2 + Math.sin(time * 1.8) * 0.12;
+    glow1Mat.opacity = (0.2 + Math.sin(time * 1.8) * 0.12) * opacityFade;
     glow2.scale.setScalar(pulse * 0.6 + 0.4);
     glow2.rotation.y += 0.005;
+    glow2.rotation.x += 0.002;
     ambientCloud.rotation.y += 0.0015;
     ambientCloud.rotation.x += 0.001;
+    ambientCloud.material.opacity = 0.4 * (0.7 + 0.3 * Math.sin(time * 1.1)) * opacityFade;
 
-    opacityFade = Math.min(1, opacityFade + dt * 0.4);
+    opacityFade = Math.min(1, opacityFade + dt * 0.35);
 
     renderer.render(scene, camera);
 }
