@@ -1301,5 +1301,258 @@
             }
         }
     </script>
+
+<style>
+  .chat-float-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: #ffd700;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+    transition: all 0.3s ease;
+    z-index: 9999;
+    backdrop-filter: blur(10px);
+  }
+  .chat-float-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+    border-color: #ffd700;
+  }
+  .chat-window {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 380px;
+    height: 520px;
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 16px;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(0,0,0,0.6), 0 0 20px rgba(212,175,55,0.1);
+    z-index: 9999;
+    backdrop-filter: blur(20px);
+  }
+  .chat-window.active { display: flex; }
+  .chat-header {
+    padding: 16px 20px;
+    background: rgba(212, 175, 55, 0.1);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .chat-header-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffd700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .chat-close {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .chat-close:hover { color: #ffd700; }
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .msg {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    word-break: break-word;
+  }
+  .msg-bot {
+    align-self: flex-start;
+    background: rgba(0, 212, 170, 0.1);
+    border: 1px solid rgba(0, 212, 170, 0.3);
+    color: #e2e8f0;
+  }
+  .msg-user {
+    align-self: flex-end;
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: #ffd700;
+  }
+  .quick-buttons {
+    padding: 0 16px 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .quick-btn {
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: #ffd700;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .quick-btn:hover {
+    background: rgba(212, 175, 55, 0.25);
+    border-color: #ffd700;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+  }
+  .chat-input-area {
+    padding: 12px 16px;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .chat-input {
+    flex: 1;
+    background: rgba(30, 41, 59, 0.8);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 24px;
+    padding: 10px 16px;
+    color: #e2e8f0;
+    font-size: 14px;
+    outline: none;
+  }
+  .chat-input:focus { border-color: rgba(212, 175, 55, 0.6); }
+  .chat-input::placeholder { color: #64748b; }
+  .chat-send {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: #ffd700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .chat-send:hover {
+    background: rgba(212, 175, 55, 0.4);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+  }
+  @media (max-width: 480px) {
+    .chat-window { width: 100%; height: 100%; bottom: 0; right: 0; border-radius: 0; }
+    .chat-float-btn { bottom: 20px; right: 20px; }
+  }
+</style>
+
+<button class="chat-float-btn" onclick="toggleChat()" title="在线客服">💬</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-header-title">● TimeBank 智能助手</div>
+    <button class="chat-close" onclick="toggleChat()">×</button>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="quick-buttons" id="quickButtons"></div>
+  <div class="chat-input-area">
+    <input type="text" class="chat-input" id="chatInput" placeholder="输入问题..." onkeypress="if(event.key==='Enter')sendMessage()">
+    <button class="chat-send" onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+const faqData = [
+  { keywords: ["金币","赚金币","怎么赚钱"], answer: "💰 你可以通过完成同学的互助任务来赚取金币，比如帮忙做 PPT、Python 辅导等。1 分钟服务 = 1 金币。新人可去「注册领体验」领 50 金币礼包。" },
+  { keywords: ["信誉分","信用","扣分"], answer: "📊 信誉分初始 100 分。按时完成 +1 分，好评 +2 分，违约 -5 分。低于 90 分限制发布任务，低于 80 分禁止接单。" },
+  { keywords: ["互换","1:1","匹配"], answer: "🔄 在「互助大厅」点击「1:1 互换匹配」，系统会找到技能互补的同学，时长对等交换，不消耗金币。" },
+  { keywords: ["发布","求助","发单"], answer: "📝 点击「发布新求助」，选择分类、填写需求描述、期望时长和悬赏金币数，提交后等待接单。" },
+  { keywords: ["VIP","充值","会员"], answer: "👑 VIP 享有优先匹配权、专属金色标识、每月 3 次免费互换、信誉分恢复加速。" },
+  { keywords: ["订单","状态"], answer: "📦 在「账户与资产」→「我的订单」查看所有订单状态。进行中的订单请按时完成。" },
+  { keywords: ["申诉","纠纷","投诉"], answer: "⚠️ 在订单详情页点击「申诉」，上传截图，管理员 24 小时内介入。恶意申诉扣信誉分。" },
+  { keywords: ["人工","客服"], answer: "👨‍💼 正在为你转接人工客服，请稍候~ 工作日 9:00-21:00 在线。" }
+];
+const fallbackAnswer = "🤔 这个问题我暂时还不太清楚，已记录并转接人工客服。你可以点击「转人工」按钮，或留言等待回复~";
+const quickButtons = ["怎么赚金币？","什么是互换匹配？","信誉分规则","如何发布求助？","转人工"];
+
+function toggleChat() {
+  const win = document.getElementById('chatWindow');
+  win.classList.toggle('active');
+  if (win.classList.contains('active') && document.getElementById('chatMessages').children.length === 0) initChat();
+}
+function initChat() {
+  addBotMsg("你好！我是 TimeBank 智能助手「小T」🎓\n\n有什么可以帮你的吗？点击下方快捷问题，或直接输入~");
+  renderQuickButtons();
+}
+function addUserMsg(text) {
+  const div = document.createElement('div');
+  div.className = 'msg msg-user';
+  div.textContent = text;
+  document.getElementById('chatMessages').appendChild(div);
+  scrollToBottom();
+}
+function addBotMsg(text) {
+  const div = document.createElement('div');
+  div.className = 'msg msg-bot';
+  div.innerHTML = text.replace(/\n/g, '<br>');
+  document.getElementById('chatMessages').appendChild(div);
+  scrollToBottom();
+}
+function scrollToBottom() {
+  const el = document.getElementById('chatMessages');
+  el.scrollTop = el.scrollHeight;
+}
+function renderQuickButtons() {
+  const container = document.getElementById('quickButtons');
+  container.innerHTML = '';
+  quickButtons.forEach(text => {
+    const btn = document.createElement('button');
+    btn.className = 'quick-btn';
+    btn.textContent = text;
+    btn.onclick = () => handleQuickClick(text);
+    container.appendChild(btn);
+  });
+}
+function handleQuickClick(text) {
+  if (text === "转人工") {
+    addUserMsg("转人工");
+    addBotMsg("👨‍💼 正在为你连接人工客服，请稍候...\n\n当前排队人数：1 人，预计等待 2 分钟。");
+    return;
+  }
+  addUserMsg(text);
+  setTimeout(() => addBotMsg(findAnswer(text)), 400);
+}
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  addUserMsg(text);
+  input.value = '';
+  setTimeout(() => addBotMsg(findAnswer(text)), 500);
+}
+function findAnswer(userText) {
+  const lowerText = userText.toLowerCase();
+  if (lowerText.includes('人工') || lowerText.includes('客服')) return "👨‍💼 正在为你转接人工客服，请稍候~";
+  for (const item of faqData) {
+    for (const keyword of item.keywords) {
+      if (lowerText.includes(keyword.toLowerCase())) return item.answer;
+    }
+  }
+  return fallbackAnswer;
+}
+</script>
 </body>
 </html>
