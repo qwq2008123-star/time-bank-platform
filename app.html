@@ -606,9 +606,9 @@
                         <div style="background:rgba(0,0,0,0.2);border-radius:var(--radius-md);padding:14px;min-height:180px;margin-bottom:10px;">
                             <p style="color:var(--neon-red);text-align:center;padding:30px 0;" id="chatLockMsg">🔒 请先完成暗号核验后解锁聊天功能<br><span style="font-size:11px;color:var(--text-dim);">保障双方安全是平台的首要原则</span></p>
                             <div id="chatMessages" style="display:none;">
-                                <div style="margin-bottom:6px;color:var(--text-secondary);font-size:12px;">李桂: 嗨！我们在图书馆门口见吧</div>
+                                <div style="margin-bottom:6px;color:var(--text-secondary);font-size:12px;">方越: 嗨！我们在图书馆门口见吧</div>
                                 <div style="margin-bottom:6px;color:var(--accent-cyan);font-size:12px;text-align:right;">我: 好的，下午3点可以吗？</div>
-                                <div style="margin-bottom:6px;color:var(--text-secondary);font-size:12px;">李桂: 可以，暗号别忘了哦</div>
+                                <div style="margin-bottom:6px;color:var(--text-secondary);font-size:12px;">方越: 可以，暗号别忘了哦</div>
                             </div>
                         </div>
                         <div style="display:flex;gap:8px;"><input type="text" class="input-field" placeholder="输入消息..." disabled id="chatInput" onkeydown="if(event.key==='Enter')sendChatMessage()"><button class="btn btn-primary btn-sm" disabled id="chatSendBtn" onclick="sendChatMessage()">发送</button></div>
@@ -920,7 +920,7 @@
                 var reply=document.createElement('div');
                 reply.style.cssText='margin-bottom:6px;color:var(--text-secondary);font-size:12px;';
                 var replies=['好的！收到啦~','没问题，就这么定啦','嗯嗯，那我等你哦','嘿嘿，好的！','明白，到时候见~'];
-                reply.textContent='李桂: '+replies[Math.floor(Math.random()*replies.length)];
+                reply.textContent='方越: '+replies[Math.floor(Math.random()*replies.length)];
                 container.appendChild(reply);
                 container.parentElement.scrollTop=container.parentElement.scrollHeight;
             },800+Math.random()*1200);
