@@ -1459,18 +1459,18 @@
   }
 </style>
 
-<button class="chat-float-btn" onclick="toggleChat()" title="在线客服">💬</button>
+<button class="chat-float-btn" onclick="toggleChatbot()" title="在线客服">💬</button>
 
-<div class="chat-window" id="chatWindow">
+<div class="chat-window" id="chatbotWin">
   <div class="chat-header">
     <div class="chat-header-title">● TimeBank 智能助手</div>
-    <button class="chat-close" onclick="toggleChat()">×</button>
+    <button class="chat-close" onclick="toggleChatbot()">×</button>
   </div>
-  <div class="chat-messages" id="chatMessages"></div>
-  <div class="quick-buttons" id="quickButtons"></div>
+  <div class="chat-messages" id="chatbotMsgs"></div>
+  <div class="quick-buttons" id="chatbotQuickBtns"></div>
   <div class="chat-input-area">
-    <input type="text" class="chat-input" id="chatInput" placeholder="输入问题..." onkeypress="if(event.key==='Enter')sendMessage()">
-    <button class="chat-send" onclick="sendMessage()">➤</button>
+    <input type="text" class="chat-input" id="chatbotInput" placeholder="输入问题..." onkeydown="if(event.key==='Enter')chatbotSend()">
+    <button class="chat-send" onclick="chatbotSend()">➤</button>
   </div>
 </div>
 
@@ -1488,10 +1488,10 @@ const faqData = [
 const fallbackAnswer = "🤔 这个问题我暂时还不太清楚，已记录并转接人工客服。你可以点击「转人工」按钮，或留言等待回复~";
 const quickButtons = ["怎么赚金币？","什么是互换匹配？","信誉分规则","如何发布求助？","转人工"];
 
-function toggleChat() {
-  const win = document.getElementById('chatWindow');
+function toggleChatbot() {
+  const win = document.getElementById('chatbotWin');
   win.classList.toggle('active');
-  if (win.classList.contains('active') && document.getElementById('chatMessages').children.length === 0) initChat();
+  if (win.classList.contains('active') && document.getElementById('chatbotMsgs').children.length === 0) initChat();
 }
 function initChat() {
   addBotMsg("你好！我是 TimeBank 智能助手「小T」🎓\n\n有什么可以帮你的吗？点击下方快捷问题，或直接输入~");
@@ -1501,22 +1501,22 @@ function addUserMsg(text) {
   const div = document.createElement('div');
   div.className = 'msg msg-user';
   div.textContent = text;
-  document.getElementById('chatMessages').appendChild(div);
-  scrollToBottom();
+  document.getElementById('chatbotMsgs').appendChild(div);
+  scrollChatbot();
 }
 function addBotMsg(text) {
   const div = document.createElement('div');
   div.className = 'msg msg-bot';
   div.innerHTML = text.replace(/\n/g, '<br>');
-  document.getElementById('chatMessages').appendChild(div);
-  scrollToBottom();
+  document.getElementById('chatbotMsgs').appendChild(div);
+  scrollChatbot();
 }
-function scrollToBottom() {
-  const el = document.getElementById('chatMessages');
+function scrollChatbot() {
+  const el = document.getElementById('chatbotMsgs');
   el.scrollTop = el.scrollHeight;
 }
 function renderQuickButtons() {
-  const container = document.getElementById('quickButtons');
+  const container = document.getElementById('chatbotQuickBtns');
   container.innerHTML = '';
   quickButtons.forEach(text => {
     const btn = document.createElement('button');
@@ -1535,8 +1535,8 @@ function handleQuickClick(text) {
   addUserMsg(text);
   setTimeout(() => addBotMsg(findAnswer(text)), 400);
 }
-function sendMessage() {
-  const input = document.getElementById('chatInput');
+function chatbotSend() {
+  const input = document.getElementById('chatbotInput');
   const text = input.value.trim();
   if (!text) return;
   addUserMsg(text);
