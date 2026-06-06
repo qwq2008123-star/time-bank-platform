@@ -798,7 +798,7 @@
                 </div>
                 <div style="display:flex;align-items:center;gap:8px;">
                     <span class="badge badge-blue" id="chatOrderStatus">订单进行中</span>
-                    <button class="btn btn-outline btn-sm" style="color:var(--neon-green);border-color:var(--neon-green);" onclick="completeOrder()" id="chatCompleteBtn">✅ 确认完成</button>
+                    <button class="btn btn-outline btn-sm" style="color:var(--neon-green);border-color:var(--neon-green);" onclick="goVerifyOrder(currentChatOrderId)" id="chatCompleteBtn">✅ 确认完成</button>
                     <button class="btn btn-outline btn-sm" style="padding:4px 8px;" onclick="closeChatModal()">✕</button>
                 </div>
             </div>
@@ -903,6 +903,18 @@
                 btn.textContent='✅ 验证成功 · 已解锁';
                 btn.style.background='var(--neon-green)';btn.style.color='#020617';btn.style.opacity='1';
                 showToast('🔓 暗号验证成功！私聊和联系方式已解锁');
+                if(pendingCompleteOrderId){
+                    var order = orders.find(function(o){return o.id === pendingCompleteOrderId;});
+                    if(order && order.status === 'active'){
+                        order.status = 'completed';
+                        var now = new Date();
+                        var timeStr = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+                        order.messages.push({type:'system',text:'✅ 订单已完成！双方已确认任务完成',cls:'success',time:timeStr});
+                        renderMyOrders();
+                        showToast('🎉 暗号验证通过！订单已完成，'+order.gold+' 金币已到账');
+                    }
+                    pendingCompleteOrderId = null;
+                }
             },1500);
         }
         function sendChatMessage(){
@@ -956,6 +968,7 @@
             {id:'TB-10086',taskId:'task-001',title:'期末Python大作业辅导',desc:'帮忙debug一个学生管理系统的代码，大约需要40分钟',gold:30,time:40,category:'学业辅导',publisher:'keal xeno',pubAvatar:'k',accepter:'鲁东大学',accAvatar:'鲁',status:'active',createdAt:'2025-06-06 10:30',messages:[{type:'system',text:'系统已创建订单，双方可以开始沟通',cls:'success',time:'10:30'},{type:'theirs',text:'嗨！我看到你接了我的Python辅导单子，太感谢了！',time:'10:32'},{type:'mine',text:'不客气！我对Python挺熟悉的，什么时候方便开始？',time:'10:33'},{type:'theirs',text:'今天下午3点可以吗？在图书馆二楼。',time:'10:34'},{type:'mine',text:'好的，没问题！到时候见。',time:'10:35'}]}
         ];
         var currentChatOrderId = null;
+        var pendingCompleteOrderId = null;
         var orderIdCounter = 86;
 
         function generateOrderId(){orderIdCounter++;return 'TB-'+('0000'+orderIdCounter).slice(-4);}
@@ -1159,6 +1172,13 @@
             showToast('🎤 语音消息已发送 ('+dur+')');
         }
 
+        function goVerifyOrder(orderId){
+            pendingCompleteOrderId = orderId;
+            closeChatModal();
+            showToast('🔐 请前往暗号验证页面完成核验');
+            navigateTo('verify');
+        }
+
         function completeOrder(){
             if(!currentChatOrderId)return;
             var order = orders.find(function(o){return o.id === currentChatOrderId;});
@@ -1216,7 +1236,7 @@
                     '</div>'+
                     '<div style="margin-top:8px;display:flex;gap:6px;">'+
                         '<button class="btn btn-primary btn-sm" style="flex:1;" onclick="event.stopPropagation();openOrderChat(\''+order.id+'\')">💬 进入私聊</button>'+
-                        (order.status==='active'?'<button class="btn btn-outline btn-sm" style="color:var(--neon-green);border-color:var(--neon-green);" onclick="event.stopPropagation();openOrderChat(\''+order.id+'\');">✅ 确认完成</button>':'')+
+                        (order.status==='active'?'<button class="btn btn-outline btn-sm" style="color:var(--neon-green);border-color:var(--neon-green);" onclick="event.stopPropagation();goVerifyOrder(\''+order.id+'\');">✅ 确认完成</button>':'')+
                     '</div>';
                 list.appendChild(card);
             });
