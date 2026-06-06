@@ -231,12 +231,7 @@
         .floating-cube{position:fixed;pointer-events:none;z-index:0;opacity:0.04;animation:floatCube 20s linear infinite;color:var(--gold);}
         @keyframes floatCube{0%{transform:rotate(0deg) translateY(0px);}25%{transform:rotate(90deg) translateY(-20px);}50%{transform:rotate(180deg) translateY(0px);}75%{transform:rotate(270deg) translateY(20px);}100%{transform:rotate(360deg) translateY(0px);}}
 
-        .floating-assistant{position:fixed;bottom:24px;right:24px;z-index:150;cursor:pointer;}
-        .floating-assistant .asst-icon{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 0 25px rgba(212,175,55,0.4);transition:var(--transition);}
-        .floating-assistant .asst-icon:hover{transform:scale(1.1);box-shadow:0 0 35px rgba(212,175,55,0.6);}
-        .floating-assistant .asst-label{font-size:10px;color:var(--gold-mid);text-align:center;margin-top:4px;text-shadow:0 0 8px rgba(212,175,55,0.4);}
-        .floating-assistant .asst-tip{display:none;position:absolute;bottom:66px;right:0;background:var(--bg-panel);border:1px solid var(--border-glow);border-radius:var(--radius-md);padding:12px 16px;width:200px;box-shadow:0 0 25px rgba(212,175,55,0.15);font-size:12px;color:var(--text-secondary);}
-        .floating-assistant .asst-tip.show{display:block;}
+
 
         .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;}
         .modal-overlay.active{display:flex;}
@@ -358,8 +353,7 @@
             .verification-flow{flex-direction:column;gap:8px;}
             .verification-arrow{transform:rotate(90deg);}
             .match-pair{grid-template-columns:1fr;}
-            .floating-assistant{bottom:12px;right:12px;}
-            .floating-assistant .asst-icon{width:42px;height:42px;font-size:22px;}
+
         }
     </style>
 </head>
@@ -731,13 +725,6 @@
         </main>
     </div>
 
-    <!-- Floating Assistant -->
-    <div class="floating-assistant" onclick="toggleAssistant()">
-        <div class="asst-tip" id="asstTip">👋 你好！我是 TimeBank 智能助手，有什么可以帮助你的？<br><span style="color:var(--accent-cyan);font-size:10px;">工作日 9:00-21:00 在线</span></div>
-        <div class="asst-icon">🤖</div>
-        <div class="asst-label">在线客服</div>
-    </div>
-
     <!-- Modals -->
     <div class="modal-overlay" id="vipModal">
         <div class="modal">
@@ -986,9 +973,7 @@
             var panel=document.getElementById('admin-tab-'+name);
             if(panel)panel.classList.add('active');
         }
-        function toggleAssistant(){
-            var tip=document.getElementById('asstTip');tip.classList.toggle('show');
-        }
+
         function toggleOtherSchool(){
             var sel=document.getElementById('profileSchool');
             document.getElementById('profileSchoolOther').style.display=sel.value==='其他'?'block':'none';
