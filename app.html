@@ -594,10 +594,15 @@
                 <div class="card-grid card-grid-2">
                     <div class="glass-panel" style="text-align:center;">
                         <h3 style="margin-bottom:10px;">🔐 专属安全暗号</h3>
-                        <p style="color:var(--text-secondary);font-size:12px;margin-bottom:14px;">交换暗号 · 仅任务期间有效</p>
-                        <div class="code-display" id="securityCode">74-橘子</div>
-                        <p style="color:var(--text-dim);font-size:12px;margin-bottom:14px;">对方暗号: <strong style="color:var(--accent-cyan);" id="peerCode">38-海豚</strong></p>
-                        <p style="color:var(--text-dim);font-size:11px;margin-bottom:6px;">请当面核对对方暗号后，点击确认按钮</p>
+                        <p style="color:var(--text-secondary);font-size:12px;margin-bottom:6px;">交换暗号 · 仅任务期间有效</p>
+                        <button class="btn btn-outline btn-sm" style="margin-bottom:12px;" onclick="refreshSecurityCode()" id="refreshCodeBtn">🔄 刷新暗号</button>
+                        <div style="background:rgba(212,175,55,0.03);border:2px dashed var(--gold);border-radius:var(--radius-md);padding:16px 12px;margin-bottom:10px;">
+                            <p style="font-size:11px;color:var(--text-dim);margin-bottom:6px;">📢 我的暗号（说出这句给对方听）</p>
+                            <div class="code-display" style="font-size:clamp(18px,2.5vw,24px);padding:12px;margin:0 0 12px 0;" id="securityCode">知识就是力量</div>
+                            <p style="font-size:11px;color:var(--text-dim);margin-bottom:6px;">🔑 对方反暗号（等待对方回应）</p>
+                            <div style="font-family:'Noto Serif SC',serif;font-size:clamp(16px,2.2vw,22px);font-weight:600;text-align:center;color:var(--accent-cyan);text-shadow:0 0 20px rgba(0,240,255,0.4);padding:10px;background:rgba(0,240,255,0.05);border:1px dashed var(--accent-cyan);border-radius:var(--radius-sm);letter-spacing:2px;margin-bottom:0;" id="peerCode">但力量举不起来我的绩点</div>
+                        </div>
+                        <p style="color:var(--text-dim);font-size:11px;margin-bottom:6px;">请当面核对暗号后，点击确认按钮</p>
                         <button class="btn btn-primary btn-lg btn-block" id="verifyBtn" onclick="confirmVerification()">✅ 我已核对暗号无误</button>
                         <div id="verificationResult" style="margin-top:10px;display:none;"><p style="color:var(--neon-green);font-size:13px;">✓ 双方已验证成功！私聊已解锁</p></div>
                     </div>
@@ -749,7 +754,7 @@
         <div class="modal" style="text-align:center;">
             <h3>🤝 确认发起互换</h3>
             <p style="color:var(--text-secondary);margin-bottom:8px;">你将与 <strong style="color:var(--accent-cyan);" id="swapPeerName">---</strong> 进行技能互换</p>
-            <div class="code-display" style="font-size:24px;letter-spacing:4px;" id="swapCode"></div>
+            <div class="code-display" style="font-size:clamp(16px,2.5vw,20px);letter-spacing:2px;word-break:break-all;" id="swapCode"></div>
             <p style="color:var(--text-dim);font-size:11px;margin-bottom:14px;">互换发起后系统将生成专属安全暗号</p>
             <div style="display:flex;gap:10px;"><button class="btn btn-outline btn-sm" style="flex:1;" onclick="closeModal('swapConfirmModal')">取消</button><button class="btn btn-primary" style="flex:1;" onclick="confirmSwap()">✅ 确认发起</button></div>
         </div>
@@ -890,19 +895,61 @@
             showToast('✅ 充值成功！'+amount+' → +'+tb+' 金币');
         }
         function handleVIPPurchase(){showToast('🎉 VIP会员开通成功！有效期为30天');closeModal('vipModal');}
+        var codePairs = [
+            ['知识就是力量','但力量举不起来我的绩点'],
+            ['失败是成功之母','那成功之父是谁？是摆烂'],
+            ['活到老学到老','学到老考到老'],
+            ['时间就是金钱','但我的时间不值钱'],
+            ['天道酬勤','但天道可能也看脸'],
+            ['千里之行始于足下','足下是拖鞋，走不远'],
+            ['己所不欲勿施于人','但作业可以互相抄'],
+            ['三人行必有我师','必有我外卖搭子'],
+            ['学而不思则罔','思而不学则爽'],
+            ['温故而知新','可以为师矣，为师矣工资多少'],
+            ['君子坦荡荡','小人长戚戚，我躺平我坦荡'],
+            ['不积跬步无以至千里','不积外卖无以度周末'],
+            ['业精于勤荒于嬉','行成于思毁于随，随大流去干饭'],
+            ['纸上得来终觉浅','绝知此事要躬行，躬行不如看视频'],
+            ['宝剑锋从磨砺出','梅花香自苦寒来，苦寒来暖气坏了'],
+            ['吃得苦中苦','方为人上人，人上人也要写论文'],
+            ['书山有路勤为径','学海无涯苦作舟，苦作舟不如坐游轮'],
+            ['黑发不知勤学早','白首方悔读书迟，迟了还能补考吗'],
+            ['对方正在输入','我方正在加载'],
+            ['社会主义接班人','接班先接外卖单'],
+            ['以肉克刚','刚不过就躺平'],
+            ['今夜月色真美','美不过明天早八'],
+            ['帅炸苍穹','苍穹说承受不来'],
+            ['美若天仙','天仙也要写论文'],
+            ['为中华之崛起而读书','读书读到头秃'],
+            ['哎呦不错哟','不错你就多刷点']
+        ];
+        var currentCodePair = null;
+        function refreshSecurityCode(){
+            var idx = Math.floor(Math.random() * codePairs.length);
+            currentCodePair = codePairs[idx];
+            document.getElementById('securityCode').textContent = currentCodePair[0];
+            document.getElementById('peerCode').textContent = currentCodePair[1];
+            var btn = document.getElementById('refreshCodeBtn');
+            btn.textContent = '🔄 刷新暗号 ✓';
+            btn.style.color = 'var(--neon-green)';
+            btn.style.borderColor = 'var(--neon-green)';
+            setTimeout(function(){
+                btn.textContent = '🔄 刷新暗号';
+                btn.style.color = '';
+                btn.style.borderColor = '';
+            }, 800);
+            showToast('🔐 暗号已刷新！读出你的暗号给对方吧');
+        }
+        refreshSecurityCode();
         function initiateSwap(name){
             document.getElementById('swapPeerName').textContent=name;
-            var codes=['橘子','海豚','星辰','极光','银河','月光'];
-            document.getElementById('swapCode').textContent=Math.floor(Math.random()*90+10)+'-'+codes[Math.floor(Math.random()*6)];
+            refreshSecurityCode();
+            document.getElementById('swapCode').textContent=currentCodePair[0]+' / '+currentCodePair[1];
             showModal('swapConfirmModal');
         }
         function confirmSwap(){
             closeModal('swapConfirmModal');showToast('🤝 互换请求已发送！等待对方确认...');
             navigateTo('verify');
-            setTimeout(function(){
-                document.getElementById('securityCode').textContent=document.getElementById('swapCode').textContent;
-                document.getElementById('peerCode').textContent='38-海豚';
-            },500);
         }
         function confirmVerification(){
             var btn=document.getElementById('verifyBtn');
